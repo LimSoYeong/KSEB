@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# VSCode
+.vscode/
+
+# 기타 IDE
+.idea/
+*.iml
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Flutter/Dart
+.dart_tool/
+build/
+.packages
