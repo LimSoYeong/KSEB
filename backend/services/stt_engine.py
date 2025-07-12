@@ -5,5 +5,6 @@ def speech_to_text(audio_file):
     현재는 더미 텍스트를 반환
     """
 
+    ##TODO: 실제 STT 연동
     dummy_text = "텍스트 인식 확인용"
     return dummy_text
