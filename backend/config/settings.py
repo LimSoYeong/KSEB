@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-CLOVA_OCR_SECRET = os.getenv("CLOVA_OCR_SECRET")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 TTS_API_KEY = os.getenv("TTS_API_KEY")
 OPEN_API_URL = os.getenv("OPEN_API_URL")
