@@ -19,3 +19,7 @@ def extract_text_from_image(image_file):
         # 추출된 텍스트를 한 줄로 정리
         extracted_text = "\n".join([line[1][0] for line in result[0]])
         return extracted_text
+
+    except Exception as e:
+        print(f"[OCR 오류] {e}")
+        return ""
