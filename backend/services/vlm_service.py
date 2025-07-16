@@ -31,7 +31,7 @@ async def process(image: UploadFile = File(...), audio: UploadFile = File(...)):
     answer = vlm_ask(image_path=tmp_image.name, question=text)
 
     # 4. TTS 변환
-    mp3_data = clova_tts(answer)  # bytes 반환
+    mp3_data = clova_tts(answer)  # 반환
 
     # 5. mp3 파일을 클라이언트에게 들려준다.
     return StreamingResponse(BytesIO(mp3_data), media_type="audio/mpeg")
