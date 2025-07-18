@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from presentation.summarize_router import router as summarize_router
-from presentation.qa_router import router as qa_router
-from presentation.chat_ws_router import router as chat_ws_router
+from routes.summarize_router import router as summarize_router
+from routes.qa_router import router as qa_router
+from routes.chat_ws_router import router as chat_ws_router
 
 app = FastAPI()
 
