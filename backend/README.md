@@ -15,6 +15,15 @@ Request:
 Content-Type: multipart/form-data
 file: 음성 파일 (mp3 또는 wav)
 
+요청
+이름	위치	    타입	       필수 여부	설명
+file	FormData	File (mp3/wav)	✅	 사용자 음성 
+
+필드명	         타입	     설명
+user_text    	String	     음성 → 텍스트 변환 결과
+bot_text	    String	     GPT 응답 텍스트
+bot_audio_url	String	   TTS로 생성된 mp3 파일 경로 
+
 Response
 json
 {
@@ -29,6 +38,13 @@ Method: POST
 Request:
 Content-Type: multipart/form-data
 file: 이미지 파일 (jpg, png 등)
+
+필드명	         타입	설명
+original_text	String	이미지에서 추출된  문서 텍스트
+summary_text	String	요약된 텍스트
+audio_path	String	    요약된 내용 읽어주는 mp3 파일 
+
+
 
 Response
 json
