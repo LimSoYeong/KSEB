@@ -21,3 +21,7 @@ __pycache__/
 .dart_tool/
 build/
 .packages
+
+venv/
+*.log
+*.pt
