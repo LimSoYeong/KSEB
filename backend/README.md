@@ -44,8 +44,6 @@ original_text	String	이미지에서 추출된  문서 텍스트
 summary_text	String	요약된 텍스트
 audio_path	String	    요약된 내용 읽어주는 mp3 파일 
 
-
-
 Response
 json
 {
