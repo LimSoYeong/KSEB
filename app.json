@@ -7,16 +7,25 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false, 
+    "splashScreen": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourcompany.myapp" 
+      
     },
     "android": {
+      "permissions": ["CAMERA", "RECORD_AUDIO"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
+      
     },
     "web": {
       "bundler": "metro",
@@ -25,15 +34,23 @@
     },
     "plugins": [
       "expo-router",
+      "expo-splash-screen", 
+
       [
-        "expo-splash-screen",
+        "expo-camera",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "cameraPermission": "시선이음 앱이 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "시선이음 앱이 사진을 갤러리에 저장하고 선택하기 위해 접근 권한이 필요합니다.",
+          "savePhotosPermission": "시선이음 앱이 사진을 갤러리에 저장하기 위해 접근 권한이 필요합니다.",
+          "isAccessMediaLocationEnabled": true
         }
       ]
+ 
     ],
     "experiments": {
       "typedRoutes": true
