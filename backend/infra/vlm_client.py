@@ -1,12 +1,14 @@
-##도넛 예시
 from transformers import DonutProcessor, VisionEncoderDecoderModel
 from PIL import Image
 import torch, io
+from infrastructure.prompt_loader import load_prompt
 
 processor = DonutProcessor.from_pretrained("")
 model = VisionEncoderDecoderModel.from_pretrained("")
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model.to(device)
+
+prompt = load_prompt("summary")
 
 def extract_text_from_image(image_bytes: bytes) -> str:
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
