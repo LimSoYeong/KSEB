@@ -36,11 +36,14 @@ if image_path and image_path.exists():
     processor = AutoProcessor.from_pretrained(
         "Qwen/Qwen2.5-VL-7B-Instruct",
         min_pixels=min_pixels,
-        max_pixels=max_pixels
+        max_pixels=max_pixels,
+        use_fast=False
     )
 else:
     # 임베딩 사용할 경우 크기 조절 필요 없음
-    processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-7B-Instruct")
+    processor = AutoProcessor.from_pretrained(
+        "Qwen/Qwen2.5-VL-7B-Instruct",
+        use_fast=False)
 
 # ====== 메시지 준비 ======
 if image_path and image_path.exists():
