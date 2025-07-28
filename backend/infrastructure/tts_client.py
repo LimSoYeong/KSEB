@@ -1,6 +1,7 @@
 import uuid
 from pathlib import Path
 import requests
+import os
 from config.settings import TTS_API_KEY
 
 def text_to_speech(text: str) -> str:
