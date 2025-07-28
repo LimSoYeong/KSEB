@@ -1,19 +1,17 @@
-from transformers import DonutProcessor, VisionEncoderDecoderModel
-from PIL import Image
-import torch, io
-from infrastructure.prompt_loader import load_prompt
-
-processor = DonutProcessor.from_pretrained("")
-model = VisionEncoderDecoderModel.from_pretrained("")
-device = "cuda" if torch.cuda.is_available() else "cpu"
-model.to(device)
-
-prompt = load_prompt("summary")
+import requests
+import io
+from config.settings import MODEL_SERVER_URL  
 
 def extract_text_from_image(image_bytes: bytes) -> str:
-    image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-    prompt = "<s_docvqa><s_question>이 문서 내용을 요약해줘</s_question><s_answer>"
-    inputs = processor(image, prompt, return_tensors="pt").to(device)
-    output = model.generate(**inputs, max_length=512)
-    answer = processor.batch_decode(output, skip_special_tokens=True)[0]
-    return answer.replace(prompt, "").strip()
+    
+    files = {
+        "file": ("image.jpg", io.BytesIO(image_bytes), "image/jpeg")
+    }
+
+    try:
+        response = requests.post(f"{GPU_VLM_SERVER_URL}/inference", files=files)
+        response.raise_for_status()
+        return response.json()["output"]
+    except Exception as e:
+        raise RuntimeError(f"[VLM 오류] 문서 이미지 요약 실패: {e}")
+    
