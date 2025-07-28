@@ -9,7 +9,7 @@ def extract_text_from_image(image_bytes: bytes) -> str:
     }
 
     try:
-        response = requests.post(f"{GPU_VLM_SERVER_URL}/inference", files=files)
+        response = requests.post(f"{MODEL_SERVER_URL}/inference", files=files)
         response.raise_for_status()
         return response.json()["output"]
     except Exception as e:
