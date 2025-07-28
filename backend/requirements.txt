@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+langserve
+python-dotenv
+requests
+pillow
+torch
+transformers
+langchain
+langchain-core
+sqlalchemy
