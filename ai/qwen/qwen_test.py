@@ -21,10 +21,16 @@ embedding_files = [embedding_dir / f"img_{i:03d}.pt" for i in range(1, 11)]  # i
 image_path = None
 
 prompt_list = [
-    "이 문서를 노인을 위해 쉽게 설명해줘",
-    "문서 내용을 한 문장으로 요약해줘",
-    "핵심 포인트 3가지만 알려줘",
-    "5살 아이가 이해할 수 있도록 풀어서 말해줘",
+    """다음 문서를 점점 압축하며 요약하세요.
+    1단계: 핵심 내용을 4문장으로 요약.
+    2단계: 불필요한 표현을 줄이고 3문장으로 압축.
+    3단계: 2문장으로 밀도 있게 요약.
+    마지막: 어르신에게 친근하게 설명하는 한 문장으로 다시 작성.
+    출력:
+    - 단계1 요약
+    - 단계2 요약
+    - 단계3 요약
+    - 어르신 톤 요약"""
 ]
 
 # ====== 모델 로드 ======
@@ -97,7 +103,7 @@ for embed_file in embedding_files:
             infer_start = time.time() # 추론 시간 측정
             generated_ids = model.generate(
                 **inputs,
-                max_new_tokens=256, # 혹은 128
+                max_new_tokens=1024, # 혹은 128
                 do_sample=False # 샘플링을 하지 않고, greedy 방식으로 출력 생성
             )
             infer_end = time.time() # 추론 시간 측정 종료
