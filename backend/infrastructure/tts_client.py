@@ -1,8 +1,7 @@
 import uuid
 from pathlib import Path
 import requests
-import os
-from config.settings import NAVER_TTS_CLIENT_ID, NAVER_TTS_CLIENT_SECRET
+from config.settings import NAVER_CLIENT_ID, NAVER_CLIENT_SECRET
 
 TTS_URL = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts"
 
@@ -15,8 +14,8 @@ def text_to_speech(text: str) -> str:
         pass
 
     headers = {
-        "x-ncp-apigw-api-key-id": NAVER_TTS_CLIENT_ID,
-        "x-ncp-apigw-api-key": NAVER_TTS_CLIENT_SECRET,
+        "x-ncp-apigw-api-key-id": NAVER_CLIENT_ID,
+        "x-ncp-apigw-api-key": NAVER_CLIENT_SECRET,
         "Content-Type": "application/x-www-form-urlencoded"
     }
     data = {
