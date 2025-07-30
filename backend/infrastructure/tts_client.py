@@ -9,11 +9,14 @@ TTS_URL = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts"
 def text_to_speech(text: str) -> str:
     filename = f"{uuid.uuid4().hex}.mp3"
     path = Path("static/audio") / filename
-    path.parent.mkdir(parents=True, exist_ok=True) # 폴더 없을 경우 생성
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True) # 폴더 없을 경우 생성
+    except FileExistsError:
+        pass
 
     headers = {
-        "X-NCP-APIGW-API-KEY-ID": NAVER_TTS_CLIENT_ID,
-        "X-NCP-APIGW-API-KEY": NAVER_TTS_CLIENT_SECRET,
+        "x-ncp-apigw-api-key-id": NAVER_TTS_CLIENT_ID,
+        "x-ncp-apigw-api-key": NAVER_TTS_CLIENT_SECRET,
         "Content-Type": "application/x-www-form-urlencoded"
     }
     data = {
