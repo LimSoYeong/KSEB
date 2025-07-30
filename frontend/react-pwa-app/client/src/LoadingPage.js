@@ -1,15 +1,50 @@
+// LoadingPage.js
+
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 export default function LoadingPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const imageBlob = location.state?.imageBlob;
+  const serverUrl = process.env.REACT_APP_MODEL_SERVER_URL;
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      navigate('/summary'); // 3초 뒤 summary로 이동
-    }, 3000);
-    return () => clearTimeout(timeout);
-  }, [navigate]);
+    const analyzeImage = async () => {
+      console.log('[Debug] imageBlob:', imageBlob); // ✅ blob 확인
+      console.log('✅ serverUrl:', serverUrl);
+
+      if (!imageBlob) {
+        alert('이미지를 불러올 수 없습니다.');
+        navigate('/camera');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', imageBlob, 'photo.jpg');
+
+      console.log('[Debug] FormData:', formData.get('file')); // ✅ 확인
+
+      try {
+        const response = await axios.post(
+          `${serverUrl}/vlm/describe`,
+          formData,
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+        );
+
+        // ✅ 결과 받아서 summary 페이지로 이동
+        const summaryText = response.data.summary;
+        navigate('/summary', { state: { summary: summaryText } });
+      } catch (error) {
+        console.error('서버 요청 실패:', error);
+        alert('문서 분석에 실패했습니다.');
+        navigate('/camera');
+      }
+    };
+
+    analyzeImage();
+  }, [navigate, imageBlob]);
 
   return (
     <div style={styles.container}>

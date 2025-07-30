@@ -1,42 +1,23 @@
-import React, { useState } from 'react';
-import { summarizeImage } from './api/summarize';
+// SummaryPage.js
+
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function SummaryPage() {
-  const [summaryText, setSummaryText] = useState('');
-  const [originalText, setOriginalText] = useState('');
-  const [audioPath, setAudioPath] = useState('');
-  const [imagePreview, setImagePreview] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const summaryText = location.state?.summary || '';
 
-  // 파일 업로드 및 요약 요청
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setImagePreview(URL.createObjectURL(file)); // 이미지 미리보기
-    setLoading(true);
-    try {
-      const result = await summarizeImage(file);
-      setOriginalText(result.original_text);
-      setSummaryText(result.summary_text);
-      setAudioPath(result.audio_path);
-    } catch {
-      alert('요약 실패!');
-    } finally {
-      setLoading(false);
+  const handleVoice = () => {
+    if ('speechSynthesis' in window && summaryText) {
+      const utter = new window.SpeechSynthesisUtterance(summaryText.replace(/\n/g, ' '));
+      utter.lang = 'ko-KR';
+      window.speechSynthesis.speak(utter);
     }
   };
 
-  // 음성 듣기
-  const handleVoice = () => {
-    if (audioPath) {
-      new Audio(`http://localhost:8000${audioPath}`).play();
-    } else if (summaryText) {
-      if ('speechSynthesis' in window) {
-        const utter = new window.SpeechSynthesisUtterance(summaryText.replace(/\n/g, ' '));
-        utter.lang = 'ko-KR';
-        window.speechSynthesis.speak(utter);
-      }
-    }
+  const handleBack = () => {
+    navigate('/camera'); // 다시 찍기로 카메라 화면 이동
   };
 
   return (
@@ -44,34 +25,12 @@ export default function SummaryPage() {
       <div style={styles.container}>
         {/* 상단 검정바 */}
         <div style={styles.topBar}>
-          <button style={styles.backBtn}>&larr;</button>
+          <button style={styles.backBtn} onClick={handleBack}>&larr;</button>
           <span style={styles.topTitle}>다시 찍기</span>
         </div>
 
-        {/* 이미지 업로드 + 미리보기 */}
-        <div style={styles.imageBox}>
-          <input type="file" accept="image/*" onChange={handleFileChange} />
-          {imagePreview && (
-            <img src={imagePreview} alt="문서 미리보기" style={styles.previewImg} />
-          )}
-          {/* 크게보기 버튼은 이미지 있을 때만 */}
-          {imagePreview && (
-            <button style={styles.zoomBtn}>
-              <span role="img" aria-label="search" style={{ marginRight: 5, fontSize: 17 }}>🔍</span>
-              크게보기
-            </button>
-          )}
-        </div>
-
-        {loading && <div>요약 중...</div>}
-
         {/* 요약 텍스트 */}
         <div style={styles.summaryWrap}>
-          {originalText && (
-            <div style={{ color: '#888', fontSize: 13, marginBottom: 10 }}>
-              원문: {originalText}
-            </div>
-          )}
           {summaryText
             ? summaryText.split('\n').map((line, idx) => (
                 <div key={idx} style={styles.summaryText}>{line}</div>
@@ -80,22 +39,17 @@ export default function SummaryPage() {
           }
         </div>
 
-        {/* 하단 빨간 버튼 */}
+        {/* 하단 버튼 */}
         <div style={styles.bottomBar}>
           <button style={styles.voiceButton} onClick={handleVoice}>
             <span role="img" aria-label="mic" style={styles.micIcon}>🎤</span>
             <span style={styles.voiceButtonText}>음성으로 질문하기</span>
           </button>
-          {/* mp3 재생 지원 (백엔드에서 mp3 반환 시) */}
-          {audioPath && (
-            <audio controls src={`http://localhost:8000${audioPath}`} style={{ marginTop: 10 }} />
-          )}
         </div>
       </div>
     </div>
   );
 }
-
 
 const styles = {
   page: {
