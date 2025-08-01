@@ -6,7 +6,7 @@ import HomeScreen from './pages/HomeScreen';
 import CameraScreen from './pages/CameraScreen'; 
 import LoadingPage from './pages/LoadingPage';
 import SummaryPage from './pages/SummaryPage';
-import RecordPage from './pages/RecordPage';
+import AnswerPage from './pages/AnswerPage';
 
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
         <Route path="/camera" element={<CameraScreen />} />
         <Route path="/load" element={<LoadingPage />} />
         <Route path="/summary" element={<SummaryPage />} />
-        <Route path="/record" element={<RecordPage />} />
+        <Route path="/answer" element={<AnswerPage />} />
       </Routes>
     </BrowserRouter>
   );

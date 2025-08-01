@@ -22,7 +22,7 @@ export default function LoadingPage() {
       const formData = new FormData();
       formData.append('image', imageBlob, 'photo.jpg');
 
-      console.log('[Debug] FormData:', formData.get('file')); // ✅ 확인
+      console.log('[Debug] FormData:', formData.get('file')); //  확인
 
       try {
         const response = await axios.post(
@@ -31,9 +31,9 @@ export default function LoadingPage() {
           { headers: { 'Content-Type': 'multipart/form-data' } }
         );
 
-        // ✅ 결과 받아서 summary 페이지로 이동
+        //  결과 받아서 summary 페이지로 이동
         const summaryText = response.data.result;
-        sessionStorage.setItem('userInteracted', 'true');  // ✅ 사용자 인터랙션 기록
+        sessionStorage.setItem('userInteracted', 'true');  //  사용자 인터랙션 기록
         navigate('/summary', { state: { summary: summaryText } });
       } catch (error) {
         console.error('서버 요청 실패:', error);
