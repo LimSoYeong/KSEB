@@ -156,27 +156,27 @@ export default function CameraScreen() {
       
       const isDocumentDetected = await detectDocument();
       
-      if (isDocumentDetected) {
-        setDetectionCount(prev => {
-          const newCount = prev + 1;
-          // 3초 연속 감지되면 자동 촬영
-          if (newCount >= 3) {
-            clearInterval(detectionIntervalRef.current);
-            detectionIntervalRef.current = null;
-            setIsAutoDetecting(false);
-            // takePhoto 함수를 직접 호출하지 않고 이벤트를 발생시킴
-            setTimeout(() => {
-              if (videoRef.current && canvasRef.current) {
-                takePhoto();
-              }
-            }, 100);
-            return 0;
-          }
-          return newCount;
-        });
-      } else {
-        setDetectionCount(0);
-      }
+             if (isDocumentDetected) {
+         setDetectionCount(prev => {
+           const newCount = prev + 1;
+           // 3초 연속 감지되면 자동 촬영 (3 > 2 > 1 순서)
+           if (newCount >= 3) {
+             clearInterval(detectionIntervalRef.current);
+             detectionIntervalRef.current = null;
+             setIsAutoDetecting(false);
+             // takePhoto 함수를 직접 호출하지 않고 이벤트를 발생시킴
+             setTimeout(() => {
+               if (videoRef.current && canvasRef.current) {
+                 takePhoto();
+               }
+             }, 100);
+             return 0;
+           }
+           return newCount;
+         });
+       } else {
+         setDetectionCount(0);
+       }
     }, 1000); // 1초마다 감지
   }, [cameraReady, detectDocument]);
 
@@ -644,21 +644,19 @@ export default function CameraScreen() {
       />
 
       {/* 문서 촬영 가이드라인 */}
-      <div style={guidelineStyle}>
-        {/* 가이드라인 내부 안내 텍스트 */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white bg-black/60 px-4 py-2 rounded-lg">
-            <div className="text-sm font-medium">문서를 이 영역에 맞춰주세요</div>
-            <div className="text-xs mt-1">자동으로 촬영됩니다</div>
-          </div>
-        </div>
-      </div>
+      <div style={guidelineStyle} />
 
-      {/* 자동 감지 상태 표시 */}
+      {/* 자동 감지 카운트다운 표시 */}
       {isAutoDetecting && detectionCount > 0 && (
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-green-600/90 text-white px-4 py-2 rounded-lg z-20">
-          <div className="text-sm font-medium">문서 감지 중...</div>
-          <div className="text-xs mt-1">{detectionCount}/3</div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+          <div className="text-center">
+                         <div className="text-8xl font-bold text-white bg-black/60 rounded-full w-32 h-32 flex items-center justify-center mx-auto mb-4">
+               {4 - detectionCount}
+             </div>
+            <div className="text-lg font-medium text-white bg-black/60 px-4 py-2 rounded-lg">
+              문서 감지 중...
+            </div>
+          </div>
         </div>
       )}
 
@@ -683,10 +681,7 @@ export default function CameraScreen() {
         </div>
       )}
 
-      {/* 현재 해상도 뱃지 */}
-      <div className="absolute bottom-2 right-2 text-[11px] bg-black/60 text-white px-2 py-1 rounded z-10">
-        {vsize.w}×{vsize.h}
-      </div>
+
 
       {/* 카메라 상태 표시 */}
       {!cameraReady && !cameraError && (
@@ -724,13 +719,7 @@ export default function CameraScreen() {
         }`}
       />
 
-      {/* 재초점 버튼 */}
-      <UIButton
-        onClick={refocusTrick}
-        className="absolute top-5 right-5 px-3 py-2 text-white text-xs rounded-md z-10 bg-black/40 hover:bg-black/60 transition-colors"
-      >
-        재초점
-      </UIButton>
+
 
       {/* 자동 감지 토글 버튼 */}
       <UIButton
