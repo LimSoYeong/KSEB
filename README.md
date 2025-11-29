@@ -73,4 +73,4 @@ git commit -m "docs: ai/ 폴더 구조 설명 추가"
 
 # **🗓️ 프로젝트 기간**
 
-* Project Period : 25/07/08 - 25/08/20 (진행중)
+* Project Period : 25/07/08 - 25/08/20
